@@ -20,11 +20,9 @@ app.use("/auth", authRouter);
 //serve static in prod
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("chartbook-client/build"));
+  app.use(express.static("client/build"));
   app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "chartbook-client", "build", "index.html")
-    );
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
