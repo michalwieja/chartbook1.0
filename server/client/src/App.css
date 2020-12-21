@@ -1,0 +1,13 @@
+img {
+  height: 35vh;
+  object-fit: cover;
+  padding: 3vh;
+}
+
+#root > div > div:nth-child(1) > nav > div > a {
+  text-decoration: none;
+}
+
+#root > div > div:nth-child(1) > nav > div > div > ul > li > a {
+  cursor: pointer;
+}
