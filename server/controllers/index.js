@@ -12,6 +12,7 @@ export const createPost = (req, res) => {
     symbol: req.body.symbol,
     desc: req.body.desc,
     author: req.body.author,
+    authorEmail: req.body.authorEmail,
     image: req.body.image,
   });
   newPost.save().then((item) => res.json(item));

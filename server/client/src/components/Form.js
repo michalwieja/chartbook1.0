@@ -17,22 +17,39 @@ import {
 import FileBase from "react-file-base64";
 
 const AddPostForm = (props) => {
+  let currentUser = useSelector((state) => state.user.user);
+
   const [post, setPost] = useState({
     likeCount: 0,
     symbol: "",
     author: "",
+    authorEmail: "",
     desc: "",
     image: "",
   });
+
+  useEffect(() => {
+    if (currentUser) {
+      setPost({
+        likeCount: 0,
+        symbol: "",
+        author: currentUser.name,
+        authorEmail: currentUser.email,
+        desc: "",
+        image: "",
+      });
+    }
+  }, [currentUser, setPost]);
+
+  const isAuth = useSelector((state) => state.user.isAuth);
 
   let currentPost = useSelector((state) => state.currentPost);
   useEffect(() => {
     if (currentPost) {
       setPost(currentPost);
+      toggle();
     }
   }, [currentPost]);
-
-  const isAuth = useSelector((state) => state.user.isAuth);
 
   const dispatch = useDispatch();
   const handleForm = (e) => {
@@ -82,7 +99,7 @@ const AddPostForm = (props) => {
               />
             </FormGroup>
 
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="author">Author</Label>
               <Input
                 required={true}
@@ -92,7 +109,7 @@ const AddPostForm = (props) => {
                 value={post.author}
                 onChange={(e) => setPost({ ...post, author: e.target.value })}
               />
-            </FormGroup>
+            </FormGroup> */}
 
             <FormGroup>
               <Label for="desc">Description</Label>
@@ -115,10 +132,10 @@ const AddPostForm = (props) => {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" type="submit">
-              Submit
+              {currentPost ? "Edit" : "Submit"}
             </Button>
             <Button color="secondary" onClick={clearForm}>
-              Clear
+              {currentPost ? "Cancel" : "Clear"}
             </Button>
           </ModalFooter>
         </Form>
