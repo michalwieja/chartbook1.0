@@ -27,6 +27,7 @@ const AddPostForm = (props) => {
     desc: "",
     image: "",
   });
+  const toggle = () => setModal(!modal);
 
   useEffect(() => {
     if (currentUser) {
@@ -55,12 +56,12 @@ const AddPostForm = (props) => {
   const handleForm = (e) => {
     e.preventDefault();
 
-    if (currentPost) {
-      dispatch(editPost(post));
-      dispatch(removeCurrentPost());
+    if (!currentPost) {
+      dispatch(createPost(post));
       clearForm();
     } else {
-      dispatch(createPost(post));
+      dispatch(editPost(post));
+      dispatch(removeCurrentPost());
       clearForm();
     }
     toggle();
@@ -68,14 +69,22 @@ const AddPostForm = (props) => {
   };
 
   const clearForm = () => {
-    setPost({ symbol: "", author: "", desc: "" });
+    if (currentUser) {
+      setPost({
+        likeCount: 0,
+        symbol: "",
+        author: currentUser.name,
+        authorEmail: currentUser.email,
+        desc: "",
+        image: "",
+      });
+    }
     dispatch(removeCurrentPost());
     toggle();
   };
 
   const [modal, setModal] = useState(false);
 
-  const toggle = () => setModal(!modal);
   return (
     <div>
       {isAuth && (
